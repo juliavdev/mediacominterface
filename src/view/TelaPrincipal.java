@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -22,6 +24,12 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.awt.event.ActionEvent;
 
 public class TelaPrincipal extends JFrame {
 
@@ -98,35 +106,74 @@ public class TelaPrincipal extends JFrame {
 		JPanel panelEscolhasFundo = new JPanel();
 		panelFundo.add(panelEscolhasFundo, BorderLayout.CENTER);
 		GridBagLayout gbl_panelEscolhasFundo = new GridBagLayout();
-		gbl_panelEscolhasFundo.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_panelEscolhasFundo.columnWidths = new int[]{214, 0, 0, 0};
 		gbl_panelEscolhasFundo.rowHeights = new int[]{96, 0};
 		gbl_panelEscolhasFundo.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbl_panelEscolhasFundo.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelEscolhasFundo.setLayout(gbl_panelEscolhasFundo);
 		
-		JButton btnNewButton = new JButton("<html><h1>M�dia<br>Aritm�tica</h1></html>");
-		btnNewButton.setBackground(new Color(144, 238, 144));
+		JButton btnMediaAritmetica = new JButton("<html><h1>Média<br>Aritmética</h1></html>");
+		btnMediaAritmetica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				calculaMediaAritmetica();				
+			}
+		});
+		btnMediaAritmetica.setBackground(new Color(144, 238, 144));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 0;
-		panelEscolhasFundo.add(btnNewButton, gbc_btnNewButton);
+		panelEscolhasFundo.add(btnMediaAritmetica, gbc_btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("<html><h1>M�dia<br>Ponderada</h1></html>");
-		btnNewButton_1.setBackground(new Color(144, 238, 144));
+		JButton btnMediaPonderada = new JButton("<html><h1>Média<br>Ponderada</h1></html>");
+		btnMediaPonderada.setBackground(new Color(144, 238, 144));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_1.gridx = 2;
 		gbc_btnNewButton_1.gridy = 0;
-		panelEscolhasFundo.add(btnNewButton_1, gbc_btnNewButton_1);
+		panelEscolhasFundo.add(btnMediaPonderada, gbc_btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("<html><h1>M�dia<br>Harm�nica</h1></html>");
-		btnNewButton_2.setBackground(new Color(144, 238, 144));
+		JButton btnMediaHarmonica = new JButton("<html><h1>Média<br>Harmônica</h1></html>");
+		btnMediaHarmonica.setBackground(new Color(144, 238, 144));
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.gridx = 1;
 		gbc_btnNewButton_2.gridy = 0;
-		panelEscolhasFundo.add(btnNewButton_2, gbc_btnNewButton_2);
+		panelEscolhasFundo.add(btnMediaHarmonica, gbc_btnNewButton_2);
+	}
+	
+	public void calculaMediaAritmetica() {
+		
+		try {
+			String quantidadeNotas = JOptionPane.showInputDialog("Digite o número de notas totais do aluno");
+			int quantidadeNotasConvertido = Integer.parseInt(quantidadeNotas);
+			
+			double[] notas = new double[quantidadeNotasConvertido];
+			double somaNotas = 0;
+			
+			for (int i = 0; i < notas.length; i++) {
+				String nota = JOptionPane.showInputDialog("Digite a nota " +(i+1), DISPOSE_ON_CLOSE);
+				double notaConvertida = Double.parseDouble(nota);
+				notas[i] =  notaConvertida;
+				somaNotas += notaConvertida;
+			}
+			
+			System.out.println(Arrays.toString(notas));
+			System.out.println(somaNotas);
+			
+			double mediaNotas = somaNotas/notas.length;
+			
+			DecimalFormat formatarNumero = new DecimalFormat();
+			formatarNumero.setMaximumFractionDigits(2);
+			
+			JOptionPane.showMessageDialog(contentPane, "A média do aluno é: "+formatarNumero.format(mediaNotas), "Resultado", JOptionPane.PLAIN_MESSAGE);
+			
+			System.out.println(mediaNotas);
+			
+		} catch (NumberFormatException | NullPointerException e) {
+			JOptionPane.showMessageDialog(contentPane, "Por favor, digite um número válido", "ERRO", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		
 	}
 
 }
